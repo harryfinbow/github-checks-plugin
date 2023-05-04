@@ -5,4 +5,12 @@
     <f:checkbox/>
   </f:entry>
 
+  <f:entry title="${%Commit environment variable}" field="commit">
+    <f:textbox default=""/>
+  </f:entry>
+
+  <f:entry title="${%Repository environment variable}" field="repository">
+    <f:textbox default=""/>
+  </f:entry>
+
 </j:jelly>

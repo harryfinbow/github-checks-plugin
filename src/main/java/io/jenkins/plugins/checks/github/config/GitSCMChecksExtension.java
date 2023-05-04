@@ -12,6 +12,8 @@ import org.kohsuke.stapler.DataBoundSetter;
 @Extension
 public class GitSCMChecksExtension extends GitSCMExtension implements GitHubChecksConfig {
     private boolean verboseConsoleLog;
+    private String commit = "";
+    private String repository = "";
 
     /**
      * Constructor for stapler.
@@ -26,9 +28,29 @@ public class GitSCMChecksExtension extends GitSCMExtension implements GitHubChec
         this.verboseConsoleLog = verboseConsoleLog;
     }
 
+    @DataBoundSetter
+    public void setCommit(final String commit) {
+        this.commit = commit;
+    }
+
+    @DataBoundSetter
+    public void setRepository(final String repository) {
+        this.repository = repository;
+    }
+
     @Override
     public boolean isVerboseConsoleLog() {
         return verboseConsoleLog;
+    }
+
+    @Override
+    public String getCommit() {
+        return commit;
+    }
+
+    @Override
+    public String getRepository() {
+        return repository;
     }
 
     /**

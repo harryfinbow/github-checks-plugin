@@ -10,4 +10,8 @@ public interface GitHubChecksConfig {
      * @return true for verbose log
      */
     boolean isVerboseConsoleLog();
+
+    String getCommit();
+
+    String getRepository();
 }

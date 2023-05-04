@@ -46,7 +46,7 @@ public class GitHubChecksPublisherFactory extends ChecksPublisherFactory {
         final String runURL = urlProvider.getRunURL(run);
         return createPublisher(listener, getChecksConfig(run.getParent()),
                 GitHubSCMSourceChecksContext.fromRun(run, runURL, scmFacade),
-                new GitSCMChecksContext(run, runURL, scmFacade));
+                new GitSCMChecksContext(run, runURL, scmFacade, getChecksConfig(run.getParent())));
     }
 
     @Override
