@@ -8,4 +8,14 @@ public class DefaultGitHubChecksConfig implements GitHubChecksConfig {
     public boolean isVerboseConsoleLog() {
         return false;
     }
+
+    @Override
+    public String getCommit() {
+        return "";
+    }
+
+    @Override
+    public String getRepository() {
+        return "";
+    }
 }
