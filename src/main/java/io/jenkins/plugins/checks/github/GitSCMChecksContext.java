@@ -53,11 +53,11 @@ class GitSCMChecksContext extends GitHubChecksContext {
     @Override
     public String getHeadSha() {
         try {
-            String commitEnvVar = this.config.getCommit();
+            String commitEnvVar = this.config.getCommitEnvVar();
             if (commitEnvVar.isEmpty()) {
                   commitEnvVar = "GIT_COMMIT";
             }
-            String head = getGitCommitEnvironment(commitEnvVar);
+            String head = getEnvironmentVariable(commitEnvVar);
             if (StringUtils.isNotBlank(head)) {
                 return head;
             }
@@ -69,7 +69,7 @@ class GitSCMChecksContext extends GitHubChecksContext {
         return StringUtils.EMPTY;
     }
 
-    public String getGitCommitEnvironment(String var) throws IOException, InterruptedException {
+    public String getEnvironmentVariable(String var) throws IOException, InterruptedException {
         return StringUtils.defaultString(run.getEnvironment(TaskListener.NULL).get(var));
     }
 
@@ -87,10 +87,8 @@ class GitSCMChecksContext extends GitHubChecksContext {
     @Override
     public String getRepository() {
         try {
-            String repositoryURL;
-            if (!this.config.getRepository().equals("")) {
-                repositoryURL = getGitCommitEnvironment(this.config.getRepository());
-            } else {
+            String repositoryURL = getEnvironmentVariable(this.config.getRepoEnvVar());
+            if (repositoryURL.isEmpty()) {
                 repositoryURL = getUserRemoteConfig().getUrl();
             }
             if (StringUtils.isNotBlank(repositoryURL)) {

@@ -10,12 +10,12 @@ public class DefaultGitHubChecksConfig implements GitHubChecksConfig {
     }
 
     @Override
-    public String getCommit() {
+    public String getCommitEnvVar() {
         return "";
     }
 
     @Override
-    public String getRepository() {
+    public String getRepoEnvVar() {
         return "";
     }
 }

@@ -12,8 +12,8 @@ import org.kohsuke.stapler.DataBoundSetter;
 @Extension
 public class GitSCMChecksExtension extends GitSCMExtension implements GitHubChecksConfig {
     private boolean verboseConsoleLog;
-    private String commit = "";
-    private String repository = "";
+    private String commitEnvVar = "";
+    private String repoEnvVar = "";
 
     /**
      * Constructor for stapler.
@@ -29,13 +29,13 @@ public class GitSCMChecksExtension extends GitSCMExtension implements GitHubChec
     }
 
     @DataBoundSetter
-    public void setCommit(final String commit) {
-        this.commit = commit;
+    public void setCommitEnvVar(final String commitEnvVar) {
+        this.commitEnvVar = commitEnvVar;
     }
 
     @DataBoundSetter
-    public void setRepository(final String repository) {
-        this.repository = repository;
+    public void setRepoEnvVar(final String repoEnvVar) {
+        this.repoEnvVar = repoEnvVar;
     }
 
     @Override
@@ -44,13 +44,13 @@ public class GitSCMChecksExtension extends GitSCMExtension implements GitHubChec
     }
 
     @Override
-    public String getCommit() {
-        return commit;
+    public String getCommitEnvVar() {
+        return commitEnvVar;
     }
 
     @Override
-    public String getRepository() {
-        return repository;
+    public String getRepoEnvVar() {
+        return repoEnvVar;
     }
 
     /**

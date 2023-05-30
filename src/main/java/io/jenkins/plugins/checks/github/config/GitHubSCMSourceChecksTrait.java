@@ -18,8 +18,8 @@ import org.jenkinsci.Symbol;
 @Extension
 public class GitHubSCMSourceChecksTrait extends SCMSourceTrait implements GitHubChecksConfig {
     private boolean verboseConsoleLog;
-    private String commit = "";
-    private String repository = "";
+    private String commitEnvVar = "";
+    private String repoEnvVar = "";
     /**
      * Constructor for stapler.
      */
@@ -34,13 +34,13 @@ public class GitHubSCMSourceChecksTrait extends SCMSourceTrait implements GitHub
     }
 
     @DataBoundSetter
-    public void setCommit(final String commit) {
-        this.commit = commit;
+    public void setCommitEnvVar(final String commitEnvVar) {
+        this.commitEnvVar = commitEnvVar;
     }
 
     @DataBoundSetter
-    public void setRepository(final String repository) {
-        this.repository = repository;
+    public void setRepoEnvVar(final String repoEnvVar) {
+        this.repoEnvVar = repoEnvVar;
     }
 
     @Override
@@ -49,13 +49,13 @@ public class GitHubSCMSourceChecksTrait extends SCMSourceTrait implements GitHub
     }
 
     @Override
-    public String getCommit() {
-        return commit;
+    public String getCommitEnvVar() {
+        return commitEnvVar;
     }
 
     @Override
-    public String getRepository() {
-        return repository;
+    public String getRepoEnvVar() {
+        return repoEnvVar;
     }
 
     /**

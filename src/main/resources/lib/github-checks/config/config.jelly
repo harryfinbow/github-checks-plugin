@@ -5,11 +5,11 @@
     <f:checkbox/>
   </f:entry>
 
-  <f:entry title="${%Override Commit Environment Variable}" field="commitEnvVarOverride">
+  <f:entry title="${%Override Commit Environment Variable}" field="commitEnvVar">
     <f:textbox default=""/>
   </f:entry>
 
-  <f:entry title="${%Override Repository Environment Variable}" field="repoEnvVarOverride">
+  <f:entry title="${%Override Repository Environment Variable}" field="repoEnvVar">
     <f:textbox default=""/>
   </f:entry>
 

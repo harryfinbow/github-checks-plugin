@@ -11,7 +11,17 @@ public interface GitHubChecksConfig {
      */
     boolean isVerboseConsoleLog();
 
-    String getCommit();
+    /**
+     * Gets an environment variable from which to read the commit sha
+     *
+     * @return string where empty value signals to use the default env var
+     */
+    String getCommitEnvVar();
 
-    String getRepository();
+    /**
+     * Gets an environment variable from which to read the repository url
+     *
+     * @return string where empty value signals to read from the User Remote Config
+     */
+    String getRepoEnvVar();
 }
