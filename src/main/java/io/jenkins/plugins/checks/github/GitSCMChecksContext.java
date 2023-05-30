@@ -53,12 +53,11 @@ class GitSCMChecksContext extends GitHubChecksContext {
     @Override
     public String getHeadSha() {
         try {
-            String head;
-            if (!this.config.getCommit().equals("")) {
-                head = getGitCommitEnvironment(this.config.getCommit());
-            } else {
-                head = getGitCommitEnvironment("GIT_COMMIT");
+            String commitEnvVar = this.config.getCommit();
+            if (commitEnvVar.isEmpty()) {
+                  commitEnvVar = "GIT_COMMIT";
             }
+            String head = getGitCommitEnvironment(commitEnvVar);
             if (StringUtils.isNotBlank(head)) {
                 return head;
             }
