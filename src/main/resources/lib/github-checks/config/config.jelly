@@ -13,4 +13,8 @@
     <f:textbox default=""/>
   </f:entry>
 
+    <f:entry title="${%Override GitHub App Credentials ID}" field="credentialsId">
+    <f:textbox default=""/>
+  </f:entry>
+
 </j:jelly>

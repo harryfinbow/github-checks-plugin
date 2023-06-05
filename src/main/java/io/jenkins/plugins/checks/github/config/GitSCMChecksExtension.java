@@ -14,6 +14,7 @@ public class GitSCMChecksExtension extends GitSCMExtension implements GitHubChec
     private boolean verboseConsoleLog;
     private String commitEnvVar = "";
     private String repoEnvVar = "";
+    private String credentialsId = "";
 
     /**
      * Constructor for stapler.
@@ -38,6 +39,11 @@ public class GitSCMChecksExtension extends GitSCMExtension implements GitHubChec
         this.repoEnvVar = repoEnvVar;
     }
 
+    @DataBoundSetter
+    public void setCredentialsId(final String credentialsId) {
+        this.credentialsId = credentialsId;
+    }
+
     @Override
     public boolean isVerboseConsoleLog() {
         return verboseConsoleLog;
@@ -51,6 +57,11 @@ public class GitSCMChecksExtension extends GitSCMExtension implements GitHubChec
     @Override
     public String getRepoEnvVar() {
         return repoEnvVar;
+    }
+
+    @Override
+    public String getCredentialsId() {
+        return credentialsId;
     }
 
     /**

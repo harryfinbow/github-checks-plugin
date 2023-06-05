@@ -20,6 +20,8 @@ public class GitHubSCMSourceChecksTrait extends SCMSourceTrait implements GitHub
     private boolean verboseConsoleLog;
     private String commitEnvVar = "";
     private String repoEnvVar = "";
+    private String credentialsId = "";
+
     /**
      * Constructor for stapler.
      */
@@ -43,6 +45,11 @@ public class GitHubSCMSourceChecksTrait extends SCMSourceTrait implements GitHub
         this.repoEnvVar = repoEnvVar;
     }
 
+    @DataBoundSetter
+    public void setCredentialsId(final String credentialsId) {
+        this.credentialsId = credentialsId;
+    }
+
     @Override
     public boolean isVerboseConsoleLog() {
         return verboseConsoleLog;
@@ -56,6 +63,11 @@ public class GitHubSCMSourceChecksTrait extends SCMSourceTrait implements GitHub
     @Override
     public String getRepoEnvVar() {
         return repoEnvVar;
+    }
+
+    @Override
+    public String getCredentialsId() {
+        return credentialsId;
     }
 
     /**

@@ -18,4 +18,9 @@ public class DefaultGitHubChecksConfig implements GitHubChecksConfig {
     public String getRepoEnvVar() {
         return "";
     }
+
+    @Override
+    public String getCredentialsId() {
+        return "";
+    }
 }
