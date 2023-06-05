@@ -131,11 +131,7 @@ class GitSCMChecksContext extends GitHubChecksContext {
     @Override
     @CheckForNull
     protected String getCredentialsId() {
-        String credentialsId = this.config.getCredentialsId();
-        if (credentialsId.isEmpty()) {
-            credentialsId = getUserRemoteConfig().getCredentialsId();
-        }
-        return credentialsId;
+        return this.config.getCredentialsId();
     }
 
     private UserRemoteConfig getUserRemoteConfig() {
