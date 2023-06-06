@@ -6,6 +6,16 @@ import hudson.plugins.git.extensions.GitSCMExtensionDescriptor;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 
+import hudson.model.Item;
+import hudson.security.ACL;
+import hudson.util.ListBoxModel;
+import hudson.util.FormValidation;
+import jenkins.model.Jenkins;
+import com.cloudbees.plugins.credentials.common.StandardListBoxModel;
+import org.kohsuke.stapler.AncestorInPath;
+import org.kohsuke.stapler.QueryParameter;
+import org.jenkinsci.plugins.github_branch_source.GitHubAppCredentials;
+
 /**
  * GitHub checks configurations for freestyle jobs with {@link hudson.plugins.git.GitSCM}.
  */
@@ -77,6 +87,15 @@ public class GitSCMChecksExtension extends GitSCMExtension implements GitHubChec
         @Override
         public String getDisplayName() {
             return "Configure GitHub Checks";
+        }
+
+        public ListBoxModel doFillCredentialsIdItems(@AncestorInPath Item item, @QueryParameter String credentialsId) {
+        StandardListBoxModel result = new StandardListBoxModel();
+                        return result
+                .includeEmptyValue()
+                .includeAs(ACL.SYSTEM, Jenkins.get(),
+                 GitHubAppCredentials.class)
+                .includeCurrentValue(credentialsId);
         }
     }
 }
