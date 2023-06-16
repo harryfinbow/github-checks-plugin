@@ -18,12 +18,15 @@ import hudson.plugins.git.Revision;
 import hudson.plugins.git.UserRemoteConfig;
 import hudson.plugins.git.util.BuildData;
 
+import io.jenkins.plugins.checks.github.config.GitHubChecksConfig;
+
 /**
  * Provides a {@link GitHubChecksContext} for a Jenkins job that uses a supported {@link GitSCM}.
  */
 class GitSCMChecksContext extends GitHubChecksContext {
     private static final int VALID_REPOSITORY_PATH_SEGMENTS = 2;
     private final Run<?, ?> run;
+    private final GitHubChecksConfig config;
 
     /**
      * Creates a {@link GitSCMChecksContext} according to the run. All attributes are computed during this period.
@@ -31,14 +34,15 @@ class GitSCMChecksContext extends GitHubChecksContext {
      * @param run    a run of a GitHub Branch Source project
      * @param runURL the URL to the Jenkins run
      */
-    GitSCMChecksContext(final Run<?, ?> run, final String runURL) {
-        this(run, runURL, new SCMFacade());
+    GitSCMChecksContext(final Run<?, ?> run, final String runURL, final GitHubChecksConfig config) {
+        this(run, runURL, new SCMFacade(), config);
     }
 
-    GitSCMChecksContext(final Run<?, ?> run, final String runURL, final SCMFacade scmFacade) {
+    GitSCMChecksContext(final Run<?, ?> run, final String runURL, final SCMFacade scmFacade, final GitHubChecksConfig config) {
         super(run.getParent(), runURL, scmFacade);
 
         this.run = run;
+        this.config = config;
     }
 
     @Override
@@ -49,7 +53,11 @@ class GitSCMChecksContext extends GitHubChecksContext {
     @Override
     public String getHeadSha() {
         try {
-            String head = getGitCommitEnvironment();
+            String commitEnvVar = this.config.getCommitEnvVar();
+            if (commitEnvVar.isEmpty()) {
+                  commitEnvVar = "GIT_COMMIT";
+            }
+            String head = getEnvironmentVariable(commitEnvVar);
             if (StringUtils.isNotBlank(head)) {
                 return head;
             }
@@ -61,8 +69,8 @@ class GitSCMChecksContext extends GitHubChecksContext {
         return StringUtils.EMPTY;
     }
 
-    public String getGitCommitEnvironment() throws IOException, InterruptedException {
-        return StringUtils.defaultString(run.getEnvironment(TaskListener.NULL).get("GIT_COMMIT"));
+    public String getEnvironmentVariable(String var) throws IOException, InterruptedException {
+        return StringUtils.defaultString(run.getEnvironment(TaskListener.NULL).get(var));
     }
 
     private String getLastBuiltRevisionFromBuildData() {
@@ -78,12 +86,19 @@ class GitSCMChecksContext extends GitHubChecksContext {
 
     @Override
     public String getRepository() {
-        String repositoryURL = getUserRemoteConfig().getUrl();
-        if (repositoryURL == null) {
-            return StringUtils.EMPTY;
+        try {
+            String repositoryURL = getEnvironmentVariable(this.config.getRepoEnvVar());
+            if (repositoryURL.isEmpty()) {
+                repositoryURL = getUserRemoteConfig().getUrl();
+            }
+            if (StringUtils.isNotBlank(repositoryURL)) {
+                return getRepository(repositoryURL);
+            }
         }
-
-        return getRepository(repositoryURL);
+        catch (IOException | InterruptedException e) {
+            // ignore and return a default
+        }
+        return StringUtils.EMPTY;
     }
 
     @VisibleForTesting
@@ -116,7 +131,11 @@ class GitSCMChecksContext extends GitHubChecksContext {
     @Override
     @CheckForNull
     protected String getCredentialsId() {
-        return getUserRemoteConfig().getCredentialsId();
+        String credentialsId = this.config.getCredentialsId();
+        if (credentialsId.isEmpty()) {
+            credentialsId = getUserRemoteConfig().getCredentialsId();
+        }
+        return credentialsId;
     }
 
     private UserRemoteConfig getUserRemoteConfig() {

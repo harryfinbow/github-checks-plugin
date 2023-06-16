@@ -18,6 +18,9 @@ import org.jenkinsci.Symbol;
 @Extension
 public class GitHubSCMSourceChecksTrait extends SCMSourceTrait implements GitHubChecksConfig {
     private boolean verboseConsoleLog;
+    private String commitEnvVar = "";
+    private String repoEnvVar = "";
+    private String credentialsId = "";
 
     /**
      * Constructor for stapler.
@@ -32,9 +35,39 @@ public class GitHubSCMSourceChecksTrait extends SCMSourceTrait implements GitHub
         this.verboseConsoleLog = verboseConsoleLog;
     }
 
+    @DataBoundSetter
+    public void setCommitEnvVar(final String commitEnvVar) {
+        this.commitEnvVar = commitEnvVar;
+    }
+
+    @DataBoundSetter
+    public void setRepoEnvVar(final String repoEnvVar) {
+        this.repoEnvVar = repoEnvVar;
+    }
+
+    @DataBoundSetter
+    public void setCredentialsId(final String credentialsId) {
+        this.credentialsId = credentialsId;
+    }
+
     @Override
     public boolean isVerboseConsoleLog() {
         return verboseConsoleLog;
+    }
+
+    @Override
+    public String getCommitEnvVar() {
+        return commitEnvVar;
+    }
+
+    @Override
+    public String getRepoEnvVar() {
+        return repoEnvVar;
+    }
+
+    @Override
+    public String getCredentialsId() {
+        return credentialsId;
     }
 
     /**
